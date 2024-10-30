@@ -57,7 +57,7 @@ public class PollController {
                             )
                     })
     })
-    @PostMapping("/poll")
+    @PostMapping(value = "/poll", produces = "application/json;charset=UTF-8")
     public ResponseEntity<PollResponse> addNewPoll(@RequestBody PollRequest pollRequest) {
         pollService.save(pollRequest.getTech_id(), pollRequest.getRingResult());
         return ResponseEntity.status(201).body(new PollResponse("Результат опроса успешно добавлен"));

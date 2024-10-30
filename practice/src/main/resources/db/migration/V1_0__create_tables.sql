@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS public.technologies(
 
 CREATE TABLE IF NOT EXISTS public.polls(
     poll_id SERIAL primary key,
-    user_id BIGINT,
-    tech_id BIGINT,
+    user_id INT,
+    tech_id INT,
     ring_id BIGINT,
     time TIMESTAMP,
     foreign key (user_id) references public.users (user_id) ON UPDATE CASCADE ON DELETE CASCADE,

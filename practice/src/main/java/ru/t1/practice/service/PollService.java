@@ -28,7 +28,7 @@ public class PollService {
 
         try{
             Polls poll = new Polls();
-            poll.setTechId(technologyRepo.findById(techId).stream().toList());
+            poll.setTechId(technologyRepo.findById(techId).get());
             poll.setRingId(ringRepo.findByRingName(ring));
             poll.setTime(Timestamp.valueOf(LocalDateTime.now()));
             //не добавляю UserId тк должны получать его из контекста авторизации, а его у нас нет

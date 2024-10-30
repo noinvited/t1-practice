@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,13 +17,13 @@ public class Polls {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pollId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private List<Users> userId;
+    private Users userId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "tech_id")
-    private List<Technologies> techId;
+    private Technologies techId;
 
     @ManyToOne
     @JoinColumn(name = "ring_id")
