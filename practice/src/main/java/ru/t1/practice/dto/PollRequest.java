@@ -6,7 +6,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@Schema(description = "Сообщение о добавлении результата опроса")
-public class PollResponse {
-    private String message;
+@Schema(description = "Данные опроса для записи")
+public class PollRequest {
+    private Integer tech_id;
+    private String ringResult;
 }

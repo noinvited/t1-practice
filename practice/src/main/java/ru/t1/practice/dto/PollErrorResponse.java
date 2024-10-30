@@ -6,7 +6,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@Schema(description = "Сообщение о добавлении результата опроса")
-public class PollResponse {
+@Schema(description = "Описание ошибки отправки опроса")
+public class PollErrorResponse{
+    private Integer code;
     private String message;
 }

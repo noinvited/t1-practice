@@ -1,0 +1,250 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Практическое задание от t1",
+    "description": "Реализовано добавление опроса и отображение технологий",
+    "contact": {
+      "name": "Rodionov Maxim",
+      "email": "maxim.rodionov.dev@rambler.ru"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/poll": {
+      "post": {
+        "tags": [
+          "poll-controller"
+        ],
+        "summary": "Добавление результата опроса",
+        "operationId": "addNewPoll",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PollRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Кольцо не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Результат опроса успешно добавлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Технология не найдена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/technology": {
+      "get": {
+        "tags": [
+          "technology-controller"
+        ],
+        "summary": "Получение списка технологий",
+        "operationId": "getTechnologies",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "section",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Неверно введены категория и секцияе",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestCategoryAndSectionResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Список технологий получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnologyListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PollRequest": {
+        "type": "object",
+        "properties": {
+          "tech_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ringResult": {
+            "type": "string"
+          }
+        },
+        "description": "Данные опроса для записи"
+      },
+      "PollErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Описание ошибки отправки опроса"
+      },
+      "PollResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Сообщение о добавлении результата опроса"
+      },
+      "ServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Ошибка на стороне сервера"
+      },
+      "BadRequestCategoryAndSectionDetails": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      },
+      "BadRequestCategoryAndSectionResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {
+            "$ref": "#/components/schemas/BadRequestCategoryAndSectionDetails"
+          }
+        },
+        "description": "Неправильный ввод параметров запроса"
+      },
+      "TechnologyListResponse": {
+        "type": "object",
+        "properties": {
+          "technologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TechnologyResponse"
+            }
+          }
+        },
+        "description": "Список технологий"
+      },
+      "TechnologyResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "ring": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,10 +4,10 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class ServerException extends BaseException{
+public class ServerTechnologyException extends BaseException{
     private final String error;
 
-    public ServerException(String error, String message) {
+    public ServerTechnologyException(String error, String message) {
         super(HttpStatus.valueOf(500), message);
         this.error = error;
     }

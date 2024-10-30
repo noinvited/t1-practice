@@ -8,6 +8,7 @@ import ru.t1.practice.dto.TechnologyResponse;
 import ru.t1.practice.exceptions.InvalidRequestCategoryAndSectionException;
 import ru.t1.practice.exceptions.InvalidRequestCategoryException;
 import ru.t1.practice.exceptions.InvalidRequestSectionException;
+import ru.t1.practice.exceptions.ServerTechnologyException;
 import ru.t1.practice.repos.CategoriesRepo;
 import ru.t1.practice.repos.SectionsRepo;
 import ru.t1.practice.repos.TechnologyRepo;
@@ -24,13 +25,17 @@ public class TechnologyService {
     public TechnologyListResponse getFilteredTechnologies(String category, String section){
         checkFilters(category, section);
 
-        List<Technologies> allTechnologies = technologyRepo.findAll();
-        return new TechnologyListResponse(allTechnologies.stream()
-                .filter(tech -> tech.getStatId().getStatId() != 5
-                        && (category == null || tech.getCatId().getCatName().equals(category))
-                        && (section == null || tech.getSecId().getSecName().equals(section)))
-                .map(TechnologyResponse::new)
-                .toList());
+        try {
+            List<Technologies> allTechnologies = technologyRepo.findAll();
+            return new TechnologyListResponse(allTechnologies.stream()
+                    .filter(tech -> tech.getStatId().getStatId() != 5
+                            && (category == null || tech.getCatId().getCatName().equals(category))
+                            && (section == null || tech.getSecId().getSecName().equals(section)))
+                    .map(TechnologyResponse::new)
+                    .toList());
+        } catch (Exception e){
+            throw new ServerTechnologyException("Internal Server Error", "An unexpected error occurred. Please try again later.");
+        }
     }
 
     private void checkFilters(String category, String section){

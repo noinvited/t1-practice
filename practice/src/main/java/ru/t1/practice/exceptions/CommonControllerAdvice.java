@@ -23,8 +23,23 @@ public class CommonControllerAdvice {
         return ResponseEntity.status(e.getStatus()).body(new BadRequestCategoryAndSectionResponse(e.getMessage(), new BadRequestCategoryAndSectionDetails(e.getCategory(), e.getSection())));
     }
 
-    @ExceptionHandler(ServerException.class)
-    public ResponseEntity<ServerErrorResponse> handleServerException(ServerException e) {
+    @ExceptionHandler(ServerTechnologyException.class)
+    public ResponseEntity<ServerErrorResponse> handleServerTechnologyException(ServerTechnologyException e) {
         return ResponseEntity.status(e.getStatus()).body(new ServerErrorResponse(e.getError(), e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidRequestPollException.class)
+    public ResponseEntity<PollErrorResponse> handleInvalidRequestPollException(InvalidRequestPollException e) {
+        return ResponseEntity.status(e.getStatus()).body(new PollErrorResponse(e.getStatus().value(), e.getMessage()));
+    }
+
+    @ExceptionHandler(TechnologyNotFoundPollException.class)
+    public ResponseEntity<PollErrorResponse> TechnologyNotFoundPollException(TechnologyNotFoundPollException e) {
+        return ResponseEntity.status(e.getStatus()).body(new PollErrorResponse(e.getStatus().value(), e.getMessage()));
+    }
+
+    @ExceptionHandler(ServerPollException.class)
+    public ResponseEntity<PollErrorResponse> handleServerPollException(ServerPollException e) {
+        return ResponseEntity.status(e.getStatus()).body(new PollErrorResponse(e.getStatus().value(), e.getMessage()));
     }
 }

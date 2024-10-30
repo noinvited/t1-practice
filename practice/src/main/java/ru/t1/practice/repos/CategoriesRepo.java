@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.t1.practice.domain.Categories;
 
 public interface CategoriesRepo extends JpaRepository<Categories, Long> {
-    public boolean existsByCatName(String catName);
+    boolean existsByCatName(String catName);
 }
